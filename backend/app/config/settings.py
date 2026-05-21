@@ -5,11 +5,16 @@ from pydantic.v1 import BaseSettings, Field
 
 BACKEND_DIR = Path(__file__).resolve().parents[2]
 ENV_FILE = BACKEND_DIR / ".env"
+DEFAULT_OPENAI_BASE_URL = "https://models.inference.ai.azure.com"
 
 
 class Settings(BaseSettings):
     openai_api_key: str | None = Field(default=None, env="OPENAI_API_KEY")
     openai_model: str = Field(default="gpt-4o-mini", env="OPENAI_MODEL")
+    openai_base_url: str = Field(
+        default=DEFAULT_OPENAI_BASE_URL,
+        env="OPENAI_BASE_URL",
+    )
     frontend_url: str = Field(default="http://localhost:3000", env="FRONTEND_URL")
     pdf_output_dir: str = Field(default="generated/temp", env="PDF_OUTPUT_DIR")
     environment: str = Field(default="development", env="ENVIRONMENT")
@@ -25,6 +30,10 @@ class Settings(BaseSettings):
             origins.append(self.frontend_url)
 
         return origins
+
+    @property
+    def resolved_openai_base_url(self) -> str:
+        return self.openai_base_url.strip() or DEFAULT_OPENAI_BASE_URL
 
     class Config:
         env_file = str(ENV_FILE)

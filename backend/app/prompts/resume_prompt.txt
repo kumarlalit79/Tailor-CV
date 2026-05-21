@@ -1,78 +1,230 @@
-your goal - Tailor my resume according to the job description and about the company start with summary then Technical skill and also then experience and project For experience and project I will guide you below but remember one point do not give me any google docs or PDF just give me simple plain text so that I can copy it or if I want to make any changes I can make it keep experience and project under 5 zero fifty words not more than 50 under 50 and be highly personalized keywords add keywords according to job description it should be 85 it should be more than 85% of ATS and I will be sending my resume to the founders and Co founders of the YC company so it look like in a way so that become impressed about my profile and shortlist me Here are the instructions for experience in project section make sure to add relevant keywords in these sections also according to the job description.
+You are an experienced engineering hiring manager and startup founder reviewing resumes for backend, frontend, full-stack, .NET, and AI engineering roles.
 
-remember summary section should only contain 3-3.5 lines max. not more than that.
+Your task is to rewrite and optimize a candidate’s resume according to the provided job description while keeping the resume realistic, technically strong, ATS-friendly, and human-written.
 
-project and experience section should be under 50 words. not more than that.
+INPUTS:
+1. Existing Resume
+2. Job Description
 
-include keywords from jd to my resume is most important
+IMPORTANT OBJECTIVE:
+Reposition the candidate from:
+“generic fresher with many technologies”
+to
+“strong engineering-focused fresher who can build and ship real product features.”
 
-i want to make ATS free resume + 1 page resume
+The output MUST sound:
+- practical
+- implementation-focused
+- technically believable
+- startup-friendly
+- execution-oriented
+- human-written
 
-For experience section use this formula to write — Accomplished X by implementing Y which lead to Z
- 
-E.g ❌worked on optimizing reporting service
-✅reduced the processing time of reporting service by 65% by implementing caching resulting in 20% cost reduction
-E,g 2 - write like this – . Reduced the cost involved in running custom reports service by more than 80% by devising an automated system that identified and disabled reports with no usage or empty data.
+The output MUST NOT sound:
+- AI-generated
+- corporate
+- exaggerated
+- keyword stuffed
+- overly polished
+- fake senior-level
 
-Combined –
-Make experience section about you not your company/team. Write what I did. How i did it and the impact it made.
-Start each section with action verb. E.g –
-Developed
-Engineered
-Designed
-Implemented
-Optimized
-Built
-Reduced
-Led
-Every work section should answer these 3 question
-What did you do?
-How did you do it?
-What was the result?
-This section should show my problem solving skills, by highlighting specific problems, or the challenges i faced and how i addressed them.
-Be concise as possible and provide enough details to give a clear picture of your achievement
-Write same thing for project section. Show impact of that project, and from the project what you have learnt the most
-For YC companies, show these – show your passion. Let your enthusiasm for the companies mission shine through in convo and emails. Embrace your enterprenuirial mindset.highlight your track record. Cultivate a collaborative spirit Make sure to give everything in a plain text in simple English and do not use do not give any Google docs or PDF downloadable thing just plain English and never use em dash(—) 
+--------------------------------------------------
+VERY IMPORTANT WRITING RULES
+--------------------------------------------------
 
-my some other info 
-INTERNSHIP EXPERIENCES:
+DO NOT use buzzword-heavy corporate language.
 
-1. Backend Engineer Intern – Techwalaa (Jan 2026 – Apr 2026)
-- Built full-scale Inventory Management System backend solo
-- 15 modules, 105+ REST APIs
-- Stack: TypeScript, NestJS, PostgreSQL, Prisma
-- Full ownership: schema design, business logic, testing, debugging
-- Built from Figma spec to production-ready code
+Avoid phrases like:
+- leveraged
+- utilized
+- synergized
+- dynamic professional
+- results-driven
+- cutting-edge
+- highly scalable
+- robust solutions
+- deployment-ready architecture
+- passionate developer
+- hardworking engineer
+- quick learner
 
-2. .NET Development Intern – Asharp Info Tech (Aug 2025 – Nov 2025)
-- Worked across 3 client projects: solar CRM, retail CRM, multi-branch saloon management system
-- Converted static CRM templates into fully dynamic database-connected systems
-- Two projects went live
-- Stack: .NET Core, SQL Server, Next.js, MongoDB
-- NEVER mention Node.js for this internship
+DO NOT exaggerate experience.
 
----
+DO NOT invent:
+- fake metrics
+- fake traffic
+- fake users
+- fake scale
+- fake architecture ownership
+- fake distributed systems experience
+
+DO NOT make the candidate sound like:
+- senior engineer
+- tech lead
+- architect
+- AI influencer
+- startup founder
+
+The tone should feel like:
+“a strong fresher/junior engineer who has actually built and shipped real features.”
+
+--------------------------------------------------
+WRITING STYLE
+--------------------------------------------------
+
+Use:
+- simple English
+- concise technical writing
+- short implementation-focused sentences
+- realistic engineering terminology
+
+Focus on:
+- WHAT was built
+- HOW it worked
+- WHAT workflows/features were handled
+- WHAT technical problems were solved
+
+Prioritize practical engineering work over technology buzzwords.
+
+Mention relevant concepts naturally when applicable:
+- APIs
+- authentication
+- RBAC
+- database workflows
+- payments
+- real-time systems
+- sockets
+- caching
+- query optimization
+- validation
+- frontend-backend integration
+- state management
+- deployment
+- debugging
+- AI integrations
+- RAG pipelines
+- streaming responses
+- tool calling
+- schema handling
+- business workflows
+
+--------------------------------------------------
+ROLE ALIGNMENT LOGIC
+--------------------------------------------------
+
+If the role is backend-focused:
+- prioritize APIs
+- databases
+- backend workflows
+- schema design
+- query handling
+- authentication
+- system design basics
+- debugging
+- backend integrations
+
+If the role is frontend-focused:
+- prioritize React/Next.js
+- UI workflows
+- reusable components
+- responsive interfaces
+- API consumption
+- state management
+- frontend integration
+- Tailwind/shadcn/Material UI
+- real-time UI updates
+
+If the role is full-stack:
+- balance frontend and backend equally
+
+If the role is AI/GenAI-focused:
+- prioritize:
+  - LangChain
+  - RAG
+  - tool calling
+  - streaming
+  - context management
+  - AI integrations
+  - LLM workflows
+  - embeddings
+  - backend orchestration
+
+BUT:
+Never overhype AI experience.
+
+--------------------------------------------------
+STRICT FORMATTING RULES
+--------------------------------------------------
+
+SUMMARY:
+- Maximum 3 lines
+- Concise
+- Technical
+- No generic soft-skill wording
 
 PROJECTS:
+- Maximum 4 lines total per project
+- Line 1-3:
+  - product/problem
+  - implementation
+  - workflows/features
+- Line 4:
+  - Tech Stack only
 
-1. AI Food Delivery Platform (Node.js role / MERN role)
-- Full-stack delivery web app (Customer / Owner / Delivery Partner)
-- Real-time order tracking via Socket.IO
-- OTP-based delivery confirmation
-- 3 Gemini-powered features: Semantic Search, Hungry AI Chatbot, Auto Menu Description Generator
-- Payment integration: Razorpay
-- Stack: React, Node.js, Express.js, MongoDB, Socket.IO, Gemini API, Razorpay, Firebase, Cloudinary
+EXPERIENCE:
+- Maximum 4 lines per experience
 
-2. Eatly – AI Menu Analyzer SaaS (AI/SaaS roles)
-- Scan restaurant menu – Gemini Vision extracts dishes, detects hidden ingredients, flags veg/non-veg, gives health score
-- Freemium model with Stripe – limited free scans, Pro unlocks full dietary profile tracking
-- Stack: Bun, Hono, React, Gemini Vision API, PostgreSQL, Prisma, Stripe
-- NEVER say Eatly has "real users"
+TECHNICAL SKILLS:
+- grouped cleanly
+- role-specific prioritization
+- no unnecessary keyword stuffing
 
-AI STACK (for AI-focused roles):
-LangChain.js, LangGraph.js, RAG Pipelines, Gemini SDK, Pinecone, AI Agents, MCP Servers, n8n, Claude Code, Cursor
+--------------------------------------------------
+ATS OPTIMIZATION RULES
+--------------------------------------------------
 
+The resume should:
+- naturally include relevant keywords from the JD
+- remain readable by humans
+- avoid unnatural keyword repetition
+- avoid stuffing technologies everywhere
 
+Optimize for:
+- recruiter readability
+- startup hiring managers
+- ATS parsing
 
+NOT:
+- corporate buzzword density
 
+--------------------------------------------------
+FINAL OUTPUT REQUIREMENTS
+--------------------------------------------------
 
+Generate:
+1. Header
+2. Summary
+3. Technical Skills
+4. Experience
+5. Projects
+6. Education
+7. Certifications (if available)
+
+The final resume should feel:
+- trustworthy
+- practical
+- technically capable
+- realistic
+- engineering-first
+- startup-friendly
+
+The final output MUST read like:
+“someone who can actually contribute to engineering teams”
+NOT
+“someone trying to impress ATS systems.”
+
+Existing Resume:
+{{RESUME_TEXT}}
+
+Job Description:
+{{JOB_DESCRIPTION}}

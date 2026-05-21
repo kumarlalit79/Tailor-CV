@@ -1,3 +1,4 @@
+import logging
 from typing import Any
 
 from fastapi import APIRouter, Depends
@@ -24,6 +25,7 @@ from app.utils.http_errors import (
 )
 
 router = APIRouter(tags=["Resume"])
+logger = logging.getLogger(__name__)
 
 
 @router.post("/generate-resume", response_model=ResumeResponse)
@@ -35,21 +37,34 @@ async def generate_resume(
     ats_service: ATSScoringService = Depends(get_ats_scoring_service),
 ) -> ResumeResponse:
     try:
+        logger.info("Starting resume generation request")
         optimized_resume = await resume_service.generate_resume(
             resume_text=payload.resume_text,
             job_description=payload.job_description,
+        )
+        logger.info(
+            "Structured resume generated successfully. sections=%s",
+            sorted(optimized_resume.keys()),
         )
         optimized_resume_text = flatten_resume_content(optimized_resume)
         ats_result = ats_service.analyze(
             resume_text=optimized_resume_text,
             job_description=payload.job_description,
         )
+        logger.info(
+            "ATS analysis completed. score=%s matched_count=%s missing_count=%s",
+            ats_result.ats_score,
+            len(ats_result.matched_keywords),
+            len(ats_result.missing_keywords),
+        )
         html = await run_in_threadpool(render_service.render_resume, optimized_resume)
+        logger.info("Resume HTML generation completed. html_length=%s", len(html))
         pdf_path = await run_in_threadpool(
             pdf_service.generate_pdf,
             html=html,
             filename=_build_resume_file_name(optimized_resume),
         )
+        logger.info("Resume PDF generated successfully. pdf_path=%s", pdf_path)
 
         return ResumeResponse(
             optimized_resume=optimized_resume,
@@ -60,14 +75,19 @@ async def generate_resume(
             file_name=pdf_path.name,
         )
     except OpenAIConfigurationError as exc:
+        logger.exception("Resume generation failed because OpenAI configuration is missing")
         raise configuration_error() from exc
     except ResumeServiceError as exc:
+        logger.exception("Resume generation failed during structured resume validation")
         raise bad_gateway_error("Generated resume did not match the required structure.") from exc
     except OpenAIServiceError as exc:
+        logger.exception("Resume generation failed during AI provider request")
         raise bad_gateway_error("Something went wrong while generating the resume.") from exc
     except PDFServiceError as exc:
+        logger.exception("Resume generation failed during PDF generation")
         raise internal_server_error("Unable to generate resume PDF.") from exc
     except Exception as exc:
+        logger.exception("Unexpected resume generation failure")
         raise internal_server_error("Unable to complete resume generation.") from exc
 
 

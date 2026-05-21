@@ -36,7 +36,11 @@ class OpenAIService:
             raise OpenAIConfigurationError("OPENAI_API_KEY is not configured")
 
         if self._client is None:
-            self._client = AsyncOpenAI(api_key=self.settings.openai_api_key)
+            self._client = AsyncOpenAI(
+                api_key=self.settings.openai_api_key,
+                base_url=self.settings.resolved_openai_base_url,
+                timeout=self.timeout_seconds,
+            )
 
         return self._client
 
@@ -56,9 +60,8 @@ class OpenAIService:
                 {"role": "system", "content": system_prompt},
                 {"role": "user", "content": user_prompt},
             ],
-            "max_completion_tokens": max_tokens,
+            "max_tokens": max_tokens,
             "temperature": temperature,
-            "timeout": self.timeout_seconds,
         }
 
         if response_format == "json":

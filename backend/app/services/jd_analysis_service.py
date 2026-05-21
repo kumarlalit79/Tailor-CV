@@ -1,5 +1,7 @@
 from functools import lru_cache
-from re import findall, search
+from re import search
+
+from app.services.ats_service import extract_ats_keywords, extract_technical_skills
 
 ROLE_PATTERNS = (
     "backend engineer",
@@ -14,48 +16,12 @@ ROLE_PATTERNS = (
     "node.js developer",
 )
 
-SKILL_KEYWORDS = {
-    "aws",
-    "azure",
-    "docker",
-    "fastapi",
-    "firebase",
-    "gcp",
-    "javascript",
-    "kubernetes",
-    "mongodb",
-    "nestjs",
-    "next.js",
-    "node.js",
-    "postgresql",
-    "prisma",
-    "python",
-    "react",
-    "redis",
-    "rest api",
-    "sql",
-    "typescript",
-}
-
-STOP_WORDS = {
-    "and",
-    "are",
-    "for",
-    "from",
-    "our",
-    "the",
-    "this",
-    "with",
-    "you",
-    "your",
-}
-
 
 class JDAnalysisService:
     def analyze(self, *, job_description: str) -> dict[str, list[str] | str | None]:
         normalized = job_description.lower()
-        skills = sorted(skill for skill in SKILL_KEYWORDS if skill in normalized)
-        keywords = _extract_keywords(normalized, skills)
+        skills = extract_technical_skills(job_description)
+        keywords = extract_ats_keywords(job_description)
 
         return {
             "role": _extract_role(normalized),
@@ -74,16 +40,6 @@ def _extract_role(normalized_job_description: str) -> str | None:
         normalized_job_description,
     )
     return title_match.group(1).title() if title_match else None
-
-
-def _extract_keywords(normalized_job_description: str, skills: list[str]) -> list[str]:
-    words = {
-        word.strip(".-/")
-        for word in findall(r"[a-z][a-z0-9.+#/-]{2,}", normalized_job_description)
-    }
-    keywords = {word for word in words if word and word not in STOP_WORDS}
-
-    return sorted((keywords | set(skills)))[:50]
 
 
 @lru_cache

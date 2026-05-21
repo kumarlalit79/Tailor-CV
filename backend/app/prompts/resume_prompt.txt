@@ -1,0 +1,78 @@
+your goal - Tailor my resume according to the job description and about the company start with summary then Technical skill and also then experience and project For experience and project I will guide you below but remember one point do not give me any google docs or PDF just give me simple plain text so that I can copy it or if I want to make any changes I can make it keep experience and project under 5 zero fifty words not more than 50 under 50 and be highly personalized keywords add keywords according to job description it should be 85 it should be more than 85% of ATS and I will be sending my resume to the founders and Co founders of the YC company so it look like in a way so that become impressed about my profile and shortlist me Here are the instructions for experience in project section make sure to add relevant keywords in these sections also according to the job description.
+
+remember summary section should only contain 3-3.5 lines max. not more than that.
+
+project and experience section should be under 50 words. not more than that.
+
+include keywords from jd to my resume is most important
+
+i want to make ATS free resume + 1 page resume
+
+For experience section use this formula to write — Accomplished X by implementing Y which lead to Z
+ 
+E.g ❌worked on optimizing reporting service
+✅reduced the processing time of reporting service by 65% by implementing caching resulting in 20% cost reduction
+E,g 2 - write like this – . Reduced the cost involved in running custom reports service by more than 80% by devising an automated system that identified and disabled reports with no usage or empty data.
+
+Combined –
+Make experience section about you not your company/team. Write what I did. How i did it and the impact it made.
+Start each section with action verb. E.g –
+Developed
+Engineered
+Designed
+Implemented
+Optimized
+Built
+Reduced
+Led
+Every work section should answer these 3 question
+What did you do?
+How did you do it?
+What was the result?
+This section should show my problem solving skills, by highlighting specific problems, or the challenges i faced and how i addressed them.
+Be concise as possible and provide enough details to give a clear picture of your achievement
+Write same thing for project section. Show impact of that project, and from the project what you have learnt the most
+For YC companies, show these – show your passion. Let your enthusiasm for the companies mission shine through in convo and emails. Embrace your enterprenuirial mindset.highlight your track record. Cultivate a collaborative spirit Make sure to give everything in a plain text in simple English and do not use do not give any Google docs or PDF downloadable thing just plain English and never use em dash(—) 
+
+my some other info 
+INTERNSHIP EXPERIENCES:
+
+1. Backend Engineer Intern – Techwalaa (Jan 2026 – Apr 2026)
+- Built full-scale Inventory Management System backend solo
+- 15 modules, 105+ REST APIs
+- Stack: TypeScript, NestJS, PostgreSQL, Prisma
+- Full ownership: schema design, business logic, testing, debugging
+- Built from Figma spec to production-ready code
+
+2. .NET Development Intern – Asharp Info Tech (Aug 2025 – Nov 2025)
+- Worked across 3 client projects: solar CRM, retail CRM, multi-branch saloon management system
+- Converted static CRM templates into fully dynamic database-connected systems
+- Two projects went live
+- Stack: .NET Core, SQL Server, Next.js, MongoDB
+- NEVER mention Node.js for this internship
+
+---
+
+PROJECTS:
+
+1. AI Food Delivery Platform (Node.js role / MERN role)
+- Full-stack delivery web app (Customer / Owner / Delivery Partner)
+- Real-time order tracking via Socket.IO
+- OTP-based delivery confirmation
+- 3 Gemini-powered features: Semantic Search, Hungry AI Chatbot, Auto Menu Description Generator
+- Payment integration: Razorpay
+- Stack: React, Node.js, Express.js, MongoDB, Socket.IO, Gemini API, Razorpay, Firebase, Cloudinary
+
+2. Eatly – AI Menu Analyzer SaaS (AI/SaaS roles)
+- Scan restaurant menu – Gemini Vision extracts dishes, detects hidden ingredients, flags veg/non-veg, gives health score
+- Freemium model with Stripe – limited free scans, Pro unlocks full dietary profile tracking
+- Stack: Bun, Hono, React, Gemini Vision API, PostgreSQL, Prisma, Stripe
+- NEVER say Eatly has "real users"
+
+AI STACK (for AI-focused roles):
+LangChain.js, LangGraph.js, RAG Pipelines, Gemini SDK, Pinecone, AI Agents, MCP Servers, n8n, Claude Code, Cursor
+
+
+
+
+

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{{ resume.contact.name or "Resume" }}</title>
+  <style>
+    {{ resume_css }}
+  </style>
+</head>
+<body>
+  <main class="resume">
+    <header class="resume-header">
+      {% if resume.contact.name %}
+      <h1>{{ resume.contact.name }}</h1>
+      {% endif %}
+
+      {% if resume.contact.role %}
+      <p class="role">{{ resume.contact.role }}</p>
+      {% endif %}
+
+      {% set contact_items = [
+        resume.contact.email,
+        resume.contact.phone,
+        resume.contact.location,
+        resume.contact.linkedin,
+        resume.contact.github,
+        resume.contact.portfolio
+      ] %}
+      {% set visible_contact_items = contact_items | select | list %}
+      {% if visible_contact_items %}
+      <p class="contact-line">{{ visible_contact_items | join(" | ") }}</p>
+      {% endif %}
+    </header>
+
+    {% if resume.summary %}
+    <section>
+      <h2>Summary</h2>
+      <p class="summary">{{ resume.summary }}</p>
+    </section>
+    {% endif %}
+
+    {% if resume.technical_skills %}
+    <section>
+      <h2>Technical Skills</h2>
+      <p>{{ resume.technical_skills | join(", ") }}</p>
+    </section>
+    {% endif %}
+
+    {% if resume.experience %}
+    <section>
+      <h2>Work Experience</h2>
+      {% for item in resume.experience %}
+      <article class="entry">
+        <div class="entry-heading">
+          <strong>{{ item.title }}</strong>{% if item.company %}<span>, {{ item.company }}</span>{% endif %}
+          {% if item.start_date or item.end_date %}
+          <span class="date">{{ item.start_date or "" }}{% if item.start_date and item.end_date %} - {% endif %}{{ item.end_date or "" }}</span>
+          {% endif %}
+        </div>
+        {% if item.bullets %}
+        <ul>
+          {% for bullet in item.bullets %}
+          <li>{{ bullet }}</li>
+          {% endfor %}
+        </ul>
+        {% endif %}
+      </article>
+      {% endfor %}
+    </section>
+    {% endif %}
+
+    {% if resume.projects %}
+    <section>
+      <h2>Projects</h2>
+      {% for project in resume.projects %}
+      <article class="entry">
+        <div class="entry-heading">
+          <strong>{{ project.name }}</strong>
+          {% if project.technologies %}
+          <span> | {{ project.technologies | join(", ") }}</span>
+          {% endif %}
+        </div>
+        {% if project.bullets %}
+        <ul>
+          {% for bullet in project.bullets %}
+          <li>{{ bullet }}</li>
+          {% endfor %}
+        </ul>
+        {% endif %}
+      </article>
+      {% endfor %}
+    </section>
+    {% endif %}
+
+    {% if resume.education %}
+    <section>
+      <h2>Education</h2>
+      {% for item in resume.education %}
+      <article class="entry">
+        <div class="entry-heading">
+          <strong>{{ item.institution }}</strong>
+          {% if item.degree %}
+          <span>, {{ item.degree }}</span>
+          {% endif %}
+          {% if item.start_date or item.end_date %}
+          <span class="date">{{ item.start_date or "" }}{% if item.start_date and item.end_date %} - {% endif %}{{ item.end_date or "" }}</span>
+          {% endif %}
+        </div>
+        {% if item.details %}
+        <ul>
+          {% for detail in item.details %}
+          <li>{{ detail }}</li>
+          {% endfor %}
+        </ul>
+        {% endif %}
+      </article>
+      {% endfor %}
+    </section>
+    {% endif %}
+  </main>
+</body>
+</html>

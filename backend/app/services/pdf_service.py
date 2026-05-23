@@ -52,9 +52,13 @@ class PDFService:
         try:
             logger.debug("Importing WeasyPrint HTML renderer")
             from weasyprint import HTML
+            from weasyprint.text.fonts import FontConfiguration
 
             logger.debug("Executing WeasyPrint write_pdf. base_url=%s", BACKEND_DIR)
-            HTML(string=html, base_url=str(BACKEND_DIR)).write_pdf(str(pdf_path))
+            HTML(string=html, base_url=str(BACKEND_DIR)).write_pdf(
+                str(pdf_path),
+                font_config=FontConfiguration(),
+            )
         except Exception as exc:
             logger.exception(
                 "PDF generation failed. exception_type=%s exception_message=%s pdf_path=%s",

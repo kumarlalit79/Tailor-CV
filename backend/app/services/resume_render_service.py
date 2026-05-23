@@ -58,11 +58,39 @@ def _normalize_resume_data(resume_data: Mapping[str, Any]) -> dict[str, Any]:
     return {
         "contact": resume_data.get("contact") or {},
         "summary": resume_data.get("summary") or "",
-        "technical_skills": resume_data.get("technical_skills") or [],
+        "technical_skills": _normalize_technical_skills(resume_data.get("technical_skills")),
         "experience": resume_data.get("experience") or [],
         "projects": resume_data.get("projects") or [],
         "education": resume_data.get("education") or [],
     }
+
+
+def _normalize_technical_skills(value: Any) -> dict[str, list[str]]:
+    empty_groups = {
+        "frontend": [],
+        "backend": [],
+        "databases": [],
+        "tools_devops": [],
+        "familiar_with": [],
+    }
+
+    if isinstance(value, Mapping):
+        return {
+            key: _normalize_string_list(value.get(key))
+            for key in empty_groups
+        }
+
+    if isinstance(value, list):
+        return {**empty_groups, "familiar_with": _normalize_string_list(value)}
+
+    return empty_groups
+
+
+def _normalize_string_list(value: Any) -> list[str]:
+    if not isinstance(value, list):
+        return []
+
+    return [str(item) for item in value if item]
 
 
 def _load_resume_css() -> str:

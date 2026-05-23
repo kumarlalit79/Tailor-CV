@@ -39,10 +39,23 @@
     </section>
     {% endif %}
 
-    {% if resume.technical_skills %}
+    {% set skill_groups = [
+      ("Frontend", resume.technical_skills.frontend),
+      ("Backend", resume.technical_skills.backend),
+      ("Databases", resume.technical_skills.databases),
+      ("Tools & DevOps", resume.technical_skills.tools_devops),
+      ("Familiar With", resume.technical_skills.familiar_with)
+    ] %}
+    {% if resume.technical_skills.frontend or resume.technical_skills.backend or resume.technical_skills.databases or resume.technical_skills.tools_devops or resume.technical_skills.familiar_with %}
     <section>
       <h2>Technical Skills</h2>
-      <p>{{ resume.technical_skills | join(", ") }}</p>
+      <div class="skills">
+        {% for label, skills in skill_groups %}
+        {% if skills %}
+        <p class="skill-row"><strong>{{ label }}:</strong> {{ skills | join(", ") }}</p>
+        {% endif %}
+        {% endfor %}
+      </div>
     </section>
     {% endif %}
 

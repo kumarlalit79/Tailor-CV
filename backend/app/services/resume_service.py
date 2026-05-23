@@ -7,7 +7,8 @@ from pydantic import BaseModel, ConfigDict, Field, field_validator, model_valida
 from app.services.openai_service import OpenAIService, get_openai_service
 
 PROMPT_PATH = Path(__file__).resolve().parents[1] / "prompts" / "resume_prompt.txt"
-MAX_BULLET_WORDS = 50
+MAX_BULLET_WORDS = 140
+MAX_SUMMARY_WORDS = 300
 
 
 class ResumeServiceError(Exception):
@@ -34,7 +35,7 @@ class ExperienceItem(BaseModel):
     title: str
     start_date: str | None = None
     end_date: str | None = None
-    bullets: list[str] = Field(default_factory=list, min_length=1, max_length=4)
+    bullets: list[str] = Field(default_factory=list, min_length=1, max_length=8)
 
     @field_validator("bullets")
     @classmethod
@@ -47,7 +48,14 @@ class ProjectItem(BaseModel):
 
     name: str
     technologies: list[str] = Field(default_factory=list)
-    bullets: list[str] = Field(default_factory=list, min_length=1, max_length=3)
+    bullets: list[str] = Field(default_factory=list, min_length=1, max_length=8)
+
+    @model_validator(mode="before")
+    @classmethod
+    def normalize_project_keys(cls, value: Any) -> Any:
+        if isinstance(value, Mapping) and "tech_stack" in value and "technologies" not in value:
+            return {**value, "technologies": value.get("tech_stack")}
+        return value
 
     @field_validator("bullets")
     @classmethod
@@ -65,14 +73,33 @@ class EducationItem(BaseModel):
     details: list[str] = Field(default_factory=list, max_length=3)
 
 
+class TechnicalSkills(BaseModel):
+    model_config = ConfigDict(str_strip_whitespace=True)
+
+    frontend: list[str] = Field(default_factory=list, max_length=20)
+    backend: list[str] = Field(default_factory=list, max_length=24)
+    databases: list[str] = Field(default_factory=list, max_length=16)
+    tools_devops: list[str] = Field(default_factory=list, max_length=20)
+    familiar_with: list[str] = Field(default_factory=list, max_length=20)
+
+    @model_validator(mode="before")
+    @classmethod
+    def normalize_skills(cls, value: Any) -> Any:
+        if isinstance(value, list):
+            return {"familiar_with": value}
+        if isinstance(value, Mapping):
+            return value
+        return value
+
+
 class StructuredResumeContent(BaseModel):
     model_config = ConfigDict(str_strip_whitespace=True)
 
     contact: ContactInfo = Field(default_factory=ContactInfo)
-    summary: str = Field(..., min_length=1, max_length=700)
-    technical_skills: list[str] = Field(default_factory=list, min_length=1, max_length=40)
-    experience: list[ExperienceItem] = Field(default_factory=list, max_length=4)
-    projects: list[ProjectItem] = Field(default_factory=list, max_length=4)
+    summary: str = Field(..., min_length=1, max_length=1200)
+    technical_skills: TechnicalSkills = Field(default_factory=TechnicalSkills)
+    experience: list[ExperienceItem] = Field(default_factory=list, max_length=5)
+    projects: list[ProjectItem] = Field(default_factory=list, max_length=5)
     education: list[EducationItem] = Field(default_factory=list, max_length=3)
     matched_keywords: list[str] = Field(default_factory=list, max_length=50)
     missing_keywords: list[str] = Field(default_factory=list, max_length=30)
@@ -82,8 +109,8 @@ class StructuredResumeContent(BaseModel):
     def validate_summary(cls, summary: str) -> str:
         if "—" in summary:
             raise ValueError("summary must not contain em dash characters")
-        if len(summary.split()) > 90:
-            raise ValueError("summary must stay concise for a single-page resume")
+        if len(summary.split()) > MAX_SUMMARY_WORDS:
+            raise ValueError("summary must fit a dense single-page resume")
         return summary
 
     @model_validator(mode="after")
@@ -111,7 +138,7 @@ class ResumeGenerationService:
             system_prompt=system_prompt,
             user_prompt=user_prompt,
             response_format="json",
-            max_tokens=3_500,
+            max_tokens=7_000,
             temperature=0.2,
         )
 
@@ -138,9 +165,13 @@ projects, tools, metrics, users, funding, publications, clients, or responsibili
 If a useful keyword from the job description is not supported by the resume, place it in
 missing_keywords instead of adding it to experience or projects.
 Never use the em dash character.
-Optimize the content for a concise single-page ATS resume.
-Keep the summary to 3 lines maximum.
-Keep each experience and project bullet under 50 words.
+Optimize the content for a dense, single-page A4 ATS resume that uses most of the page.
+Preserve strong original technical detail when it is truthful and relevant.
+Keep the summary to 4-5 compact lines with implementation-focused positioning.
+Use 5-6 dense implementation-focused bullets for each relevant experience and project when the source resume supports it.
+Do not collapse multiple technical workflows into one generic bullet when the original resume contains enough detail.
+Prefer practical workflow detail: APIs, auth, validation, database logic, integrations, frontend-backend contracts, debugging, and deployment handoffs.
+Keep each experience and project bullet under 140 words.
 
 Required JSON shape:
 {{
@@ -155,7 +186,13 @@ Required JSON shape:
     "portfolio": null
   }},
   "summary": "string",
-  "technical_skills": ["string"],
+  "technical_skills": {{
+    "frontend": ["string"],
+    "backend": ["string"],
+    "databases": ["string"],
+    "tools_devops": ["string"],
+    "familiar_with": ["string"]
+  }},
   "experience": [
     {{
       "company": "string",
@@ -205,7 +242,7 @@ def _validate_bullet_list(bullets: list[str]) -> list[str]:
         if "—" in bullet:
             raise ValueError("bullet must not contain em dash characters")
         if len(bullet.split()) > MAX_BULLET_WORDS:
-            raise ValueError("bullet must be under 50 words")
+            raise ValueError("bullet must be under 140 words")
     return bullets
 
 
